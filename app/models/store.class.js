@@ -2,11 +2,8 @@ import { BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/es
 
 export class Store {
 
-    constructor() {
-        this.store$ = new BehaviorSubject({
-            data: [],
-            query: ""
-        });
+    constructor(state) {
+        this.store$ = new BehaviorSubject(state);
     }
 
     get $store() {

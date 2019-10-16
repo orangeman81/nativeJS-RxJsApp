@@ -6,8 +6,12 @@ form .input-field {
     height: 64px
 }
 
-.mb {
+.mb-56 {
     margin-bottom: 56px
+}
+
+.mb-16 {
+    margin-bottom: 16px
 }
 
 .row.noMargins {

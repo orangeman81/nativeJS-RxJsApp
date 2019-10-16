@@ -1,0 +1,36 @@
+// transitions
+.ease {
+    transition: $ease;
+}
+
+.ease-in {
+    transition: $ease-in;
+}
+
+.ease-out {
+    transition: $ease-out;
+}
+
+.imgRes {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.hide-laptop {
+    @media #{$laptop-up} {
+        display: none;
+    }
+}
+
+.hide-tablet {
+    @media #{$laptop-down} {
+        display: none;
+    }
+}
+
+@include make-spaces();

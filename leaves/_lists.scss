@@ -1,0 +1,21 @@
+ul.list {
+    li {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        &:not(:last-child) {
+            border-bottom: solid 1px $lineGray;
+        }
+        @media screen and (max-width: $tablet) {
+            flex-direction: column;
+            span:last-child {
+                margin-top: 24px;
+            }
+        }
+    }
+    li:nth-child(even) {
+        background: $lGray;
+    }
+}

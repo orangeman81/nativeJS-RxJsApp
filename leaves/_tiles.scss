@@ -1,0 +1,57 @@
+.tile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75rem;
+    height: 33vh;
+    overflow: hidden;
+    animation: slide-out .3s ease-out;
+
+    h5 {
+        margin: 0;
+        position: absolute;
+        bottom: .75rem;
+        left: .75rem;
+    }
+
+    &:hover:after {
+        content: "";
+        position: absolute;
+        left: -64%;
+        top: 0;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, .25);
+        animation: tile-out .3s ease-out;
+        transform: rotate(45deg) translateX(0);
+    }
+}
+
+a.tile {
+    &:hover {
+        i {
+            animation: emphasis .4s both ease-out;
+        }
+    }
+
+    .col:nth-child(odd) &:not(.reverse) {
+        background: darken($lGray, 2%);
+    }
+
+    .col:nth-child(even) &:not(.reverse) {
+        background: darken($lGray, 4%);
+    }
+
+    .col:nth-child(odd) &.reverse {
+        background: $color;
+    }
+
+    .col:nth-child(even) &.reverse {
+        background: darken($color, 10%);
+    }
+
+    .tile-icon {
+        font-size: 6rem;
+    }
+}
