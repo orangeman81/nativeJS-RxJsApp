@@ -1,12 +1,12 @@
 export const Card = (data) => `
-    <div class="col s12 m4 bouncing">
+    <div class="col s12 m6 l4 bouncing">
         <article class="card">
             <div class="card-image">
                 <img src="${data.album.cover_big}">
                 <span class="card-title">${data.album.title}</span>
             </div>
             <div class="card-content">
-                <h5>${data.artist.name}</h5>
+                <h5 class="mb">${data.artist.name}</h5>
                 <audio controls>
                     <source src="${data.preview}" type="audio/mpeg">
                     Your browser does not support the audio element.
@@ -23,10 +23,6 @@ export const Card = (data) => `
 export const CardDetails = (data) => `
     <div class="col s12">
         <article class="card">
-            <div class="card-image">
-                <img src="${data.album.cover_xl}">
-                <span class="card-title">${data.album.title}</span>
-            </div>
             <div class="card-content">
                 <h3>${data.title}</h3>
                 <audio controls>
@@ -35,6 +31,7 @@ export const CardDetails = (data) => `
                 </audio>
             </div>
             <div class="card-action">
+                <a href="${data.link}" target="_blank">Info</a>
                 <button type="button" class="waves-effect waves-teal btn-flat" id="back">List</button>
             </div>
         </article>

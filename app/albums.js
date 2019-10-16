@@ -4,6 +4,7 @@ import { debounceTime, distinctUntilChanged, auditTime, filter, map, tap, switch
 import { Helper } from "./models/helper.class.js";
 
 window.onload = () => {
+    data.fetchMusic("Jimmy Page");
     const query = document.querySelector("#queryForm");
     const $query = fromEvent(query, "input");
 
@@ -27,7 +28,6 @@ window.onload = () => {
         .subscribe();
 
     const $actions = fromEvent(document, "click");
-
     const actionSub = $actions
         .pipe(
             filter(event => event.target.type === "button"),

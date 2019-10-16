@@ -32,9 +32,23 @@ class DataService extends Store {
                     data: response.data,
                     query: query
                 };
+                this.displayList(response.data);
             })
             .catch(err => {
                 console.log(err);
+            });
+    }
+
+    fetchTrack(id) {
+        fetch(`https://deezerdevs-deezer.p.rapidapi.com/track/${id}`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
+            }
+        })
+            .then(response => {
+                return response.json();
             });
     }
 
@@ -78,6 +92,7 @@ class DataService extends Store {
 
     displayDetails(details) {
         const data = this.store.data.find(e => e.id === details);
+        this.fetchTrack(details);
         this.template.innerHTML = detailsPage(data);
     }
 
