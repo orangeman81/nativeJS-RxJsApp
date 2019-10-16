@@ -1,47 +1,55 @@
 import { data } from "./services/data.service.js";
 import { fromEvent } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
-import { debounceTime } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
-import { distinctUntilChanged } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
-
+import { debounceTime, distinctUntilChanged, auditTime, filter, map, tap, switchMap } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+import { Helper } from "./models/helper.class.js";
 
 window.onload = () => {
-    data.fetchMusic("Bon Iver");
-    
-    let sub;
     const query = document.querySelector("#queryForm");
     const $query = fromEvent(query, "input");
 
-
-    const setDetails = (details) => {
-        data.setDetails(details);
-    }
-
-    sub = $query
+    const sub = $query
         .pipe(
+            tap(event => {
+                event.preventDefault();
+                event.stopPropagation();
+            }),
             distinctUntilChanged(),
-            debounceTime(400)
+            debounceTime(400),
+            filter(event => event.target.value.trim() != ""),
+            map(event => {
+                const queryValue = event.target.value.trim();
+                return queryValue;
+            }),
+            switchMap(query => data.$search(query)),
+            auditTime(3000),
+            tap(() => query.reset())
         )
-        .subscribe(e => {
-            const query = e.target.value.trim()
-            data.fetchMusic(query);
-        });
+        .subscribe();
 
-    document.addEventListener("click", (event) => {
-        if (event.target.matches("[data-id]")) {
-            event.preventDefault();
-            const id = Number(event.target.dataset.id);
-            setDetails(id);
-        }
+    const $actions = fromEvent(document, "click");
 
-        if (event.target.matches("#back")) {
-            event.preventDefault();
-            console.log(data.query)
-            data.fetchMusic(data.query);
-        }
-    })
+    const actionSub = $actions
+        .pipe(
+            filter(event => event.target.type === "button"),
+            map(event => {
+                Helper.eventHandler(event, true);
+                return event.target;
+            })
+        )
+        .subscribe(element => {
+            if (element.matches("[data-id]")) {
+                const id = Number(event.target.dataset.id);
+                data.displayDetails(id);
+            }
+
+            if (element.matches("#back")) {
+                data.fetchMusic(data.query);
+            }
+        })
 }
 
 window.onbeforeunload = () => {
     sub.unsubscribe();
-    console.log("closed", sub.closed);
+    actionSub.unsubscribe();
+    console.log("closed", sub.closed, actionSub.closed);
 }

@@ -1,4 +1,4 @@
-import { RockHeroes } from "./RockHeroes.class.js";
+import { RockHeroes } from "./models/RockHeroes.class.js";
 
 export const setForm = () => {
     let loop = document.createElement("section");
