@@ -12,7 +12,7 @@ import {
 import { data } from "./data.service.js";
 import { Helper } from '../models/helper.class.js';
 
-export class SearchService {
+export class AppService {
 
     constructor() {
         this.sub = new Subscription();

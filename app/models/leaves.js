@@ -1,6 +1,6 @@
 export const Tile = (data) => {
     let wrapper = document.createElement("div");
-    wrapper.classList.add("col", "s4", "m3")
+    wrapper.classList.add("col", "s6", "m4")
     const background = `background: #fff url('${data.album.cover_big}') no-repeat;background-size:cover`;
     const template = `
         <a href style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.album.id}">

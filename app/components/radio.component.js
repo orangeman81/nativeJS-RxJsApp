@@ -2,13 +2,13 @@ import { data } from "../services/data.service.js";
 import { Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import {
     filter,
-    map
+    map,
+    switchMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 
-class DetailsPage {
+class RadioComponent {
 
     constructor() {
-        this.detailsSub = new Subscription();
         this.renderSub = new Subscription();
         this.template$ = new BehaviorSubject("");
     }
@@ -18,8 +18,11 @@ class DetailsPage {
     }
 
     init() {
-        this.detailsSub = data.$fetchAlbum(596251).subscribe();
-        this.renderSub = this.$render().subscribe();
+        this.renderSub = data.$fetchAlbum(596251)
+            .pipe(
+                switchMap(() => this.$render()),
+            )
+            .subscribe();
     }
 
     $render() {
@@ -33,13 +36,11 @@ class DetailsPage {
             );
     }
 
-
     destroy() {
-        this.detailsSub.unsubscribe();
         this.renderSub.unsubscribe();
     }
 
 }
 
-const DetailsComponent = new DetailsPage();
-export default DetailsComponent;
+const radioComponent = new RadioComponent();
+export default radioComponent;

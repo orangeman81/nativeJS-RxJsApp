@@ -3,6 +3,7 @@ import { Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs
 import {
     filter,
     map,
+    switchMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 
 class Home {
@@ -17,8 +18,11 @@ class Home {
     }
 
     init() {
-        data.fetchMusic(data.query);
-        this.renderSub = this.$render().subscribe();
+        this.renderSub = data.$search(data.query)
+            .pipe(
+                switchMap(() => this.$render())
+            )
+            .subscribe();
     }
 
     $render() {

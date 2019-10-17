@@ -7,7 +7,7 @@ import { Details, TileList } from "../models/leaves.js";
 class DataService extends Store {
 
     constructor() {
-        super(new AppState([], "jimi hendrix", "list"));
+        super(new AppState([], "jimi hendrix", ""));
     }
 
     get data() {
