@@ -40,10 +40,10 @@ window.onload = () => {
     const $actions = fromEvent(document, "click");
     const actionSub = $actions
         .pipe(
+            filter(event => event.target.matches("[data-action]")),
             tap(event => {
                 Helper.eventHandler(event, true);
             }),
-            filter(event => event.target.matches("[data-action]")),
             pluck("target"),
             mergeMap(element => {
                 const action = element.dataset.action;
