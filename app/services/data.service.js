@@ -1,8 +1,8 @@
 import { Store } from "../models/store.class.js";
 import { from } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import { tap, filter, concatMap } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
-import { detailsPage, cardList } from "../models/elements.js";
 import { AppState } from "../models/AppState.class.js";
+import { TileList, Details } from "../models/leaves.js";
 
 class DataService extends Store {
 
@@ -29,7 +29,7 @@ class DataService extends Store {
             })
             .then(response => {
                 this.store = new AppState(response.data, query, "list")
-                return this.template.innerHTML = cardList(response.data);
+                return this.template.innerHTML = TileList(response.data);
             })
             .catch(err => {
                 console.log(err);
@@ -93,13 +93,13 @@ class DataService extends Store {
                     console.log(state);
                     switch (state.page) {
                         case "list": {
-                            return this.template.innerHTML = cardList(state.data);
+                            return this.template.innerHTML = TileList(state.data);
                         }
                         case "details": {
-                            return this.template.innerHTML = detailsPage(state.data);
+                            return this.template.innerHTML = Details(state.data);
                         }
                         default: {
-                            return this.template.innerHTML = cardList(state.data);
+                            return this.template.innerHTML = TileList(state.data);
                         }
                     }
                 })

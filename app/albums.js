@@ -32,14 +32,14 @@ window.onload = () => {
             }),
             switchMap(query => data.$search(query)),
             auditTime(3000),
-            tap(() => query.reset())
+            tap(() => (query.reset(), query.elements[0].blur()))
         )
         .subscribe();
 
     const $actions = fromEvent(document, "click");
     const actionSub = $actions
         .pipe(
-            filter(event => event.target.type === "button"),
+            filter(event => event.target.href),
             map(event => {
                 Helper.eventHandler(event, true);
                 return event.target;

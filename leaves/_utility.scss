@@ -17,8 +17,19 @@
     display: block;
 }
 
+.imgRound {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover
+}
+
 .d-flex {
     display: flex;
+}
+
+.f-center {
+    align-items: center;
 }
 
 .hide-laptop {

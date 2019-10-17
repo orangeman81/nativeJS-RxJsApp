@@ -21,7 +21,7 @@ fieldset {
 input,
 textarea,
 select {
-    background: transparent;
+    background: inherit;
     padding: .25rem 0;
     border: none;
     outline: none;
@@ -30,16 +30,26 @@ select {
     font-family: inherit;
     box-sizing: content-box;
     width: 100%;
-    border-bottom: solid .15rem lighten($gray, 15%);
     transition: all .3s ease-out;
+
     &:focus,
-    &.ng-dirty.ng-valid:not(.ng-pristine) {
-        border-bottom: solid .15rem $color;
+    &:active {
+        background: $bodyGray;
     }
-    &.ng-touched.ng-invalid,
-    &:invalid.ng-dirty {
-        border-bottom: solid .15rem #F44336;
+
+    &:not(.noLine) {
+        border-bottom: solid .15rem lighten($gray, 15%);
+
+        &:focus,
+        &:active {
+            border-bottom: solid .15rem $color;
+        }
+
+        &:invalid {
+            border-bottom: solid .15rem #F44336;
+        }
     }
+
 }
 
 textarea {
@@ -49,11 +59,14 @@ textarea {
 // file input
 .file-field {
     position: relative;
+
     input[type=file] {
+
         // Needed to override webkit button
         &::-webkit-file-upload-button {
             display: none;
         }
+
         position: absolute;
         top: 0;
         right: 0;

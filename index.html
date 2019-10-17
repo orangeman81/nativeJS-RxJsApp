@@ -7,90 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Native js App</title>
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" src="./app/app.js"></script>
-    <style>
-        main {
-            min-height: 66vh
-        }
-
-        .mb {
-            margin-bottom: 56px
-        }
-    </style>
+    <script type="module" src="./app/albums.js"></script>
 </head>
 
 <body>
-    <nav class="grey darken-3 mb">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo">&emsp;Rock Heroes</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="albums.html">Albums</a></li>
-            </ul>
-        </div>
+    <nav>
+        <a href="index.html" class="reverse">
+            <i class="material-icons tile-icon">home</i>
+            &ensp;Rock Heroes
+        </a>
+        <ul>
+            <li>
+                <form id="queryForm" class="navSearch">
+                    <label for=""><i class="material-icons tile-icon">search</i></label>
+                    <input class="noLine" name="query" type="search" required>
+                </form>
+            </li>
+            <li><a class="reverse" href="radio.html"><i class="material-icons tile-icon">radio</i></a></li>
+            <li><a class="reverse" href="heroes.html"><i class="material-icons tile-icon">emoji_events</i></a></li>
+        </ul>
     </nav>
     <main class="container">
-        <div class="row">
-            <form class="col s12" id="addForm">
-                <div class="input-field">
-                    <input name="name" type="text" class="validate">
-                    <label for="first_name">Name</label>
-                </div>
-                <div class="input-field">
-                    <input type="text" name="img" class="validate">
-                    <label for="img">Img url</label>
-                </div>
-                <div class="input-field">
-                    <select name="role">
-                        <option value="" selected>Select Role</option>
-                        <option value="1">Guitar</option>
-                        <option value="2">Singer</option>
-                        <option value="3">Bass</option>
-                        <option value="4">Drums</option>
-                    </select>
-                    <label>Rock Hero Role</label>
-                </div>
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </form>
-        </div>
+        <div class="row" id="template"></div>
     </main>
-    <footer class="page-footer grey darken-3">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Footer Content</h5>
-                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                        content.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2014 Copyright Text
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-        </div>
+    <footer id="mainFooter">
+        <p>Rock Heroes</p>
+        <p>©Orangeman 2019</p>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        // ui elements
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems);
-        });
-    </script>
 </body>
 
 </html>

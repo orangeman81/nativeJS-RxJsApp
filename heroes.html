@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Native js App</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="./app/app.js"></script>
+</head>
+
+<body>
+    <nav class="grey darken-3 mb">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">&emsp;Rock Heroes</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        <div class="row">
+            <form class="col s12" id="addForm">
+                <div class="input-field">
+                    <input name="name" type="text" class="validate">
+                    <label for="first_name">Name</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="img" class="validate">
+                    <label for="img">Img url</label>
+                </div>
+                <div class="input-field">
+                    <select name="role">
+                        <option value="" selected>Select Role</option>
+                        <option value="1">Guitar</option>
+                        <option value="2">Singer</option>
+                        <option value="3">Bass</option>
+                        <option value="4">Drums</option>
+                    </select>
+                    <label>Rock Hero Role</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </main>
+    <footer class="page-footer grey darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                        content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2014 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // ui elements
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+nav {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 16px 24px;
+    background-color: $navbarColor;
+    margin-bottom: 56px;
+    border-bottom: solid 1px $lineGray;
+
+    &>a,
+    &>ul {
+        display: flex;
+        align-items: center;
+    }
+
+    &>ul {
+        i {
+            line-height: inherit;
+        }
+
+        li {
+            position: relative;
+        }
+
+        li:not(:last-child) {
+            margin-right: 16px
+        }
+    }
+
+    .navSearch {
+        position: relative;
+
+        label {
+            position: absolute;
+            top: 6px;
+            left: -32px;
+
+            i {
+                color: $off-white
+            }
+        }
+
+        input {
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 8px;
+            transition: all .3s ease;
+            max-width: 6vh;
+
+            &:hover,
+            &:focus,
+            &:active {
+                max-width: 24vh;
+            }
+        }
+    }
+}

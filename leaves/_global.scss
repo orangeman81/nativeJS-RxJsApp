@@ -7,6 +7,7 @@ figure {
 ul {
     padding: 0;
     margin: 0;
+
     li {
         list-style: none;
     }
@@ -22,22 +23,29 @@ main {
     min-height: calc(100vh - 232px);
 }
 
-// images
-img.res {
-    max-width: 100%
+// ui elements
+.mainHeader {
+    display: flex;
+    justify-content: space-between;
+
+    h1~p,
+    h2~p {
+        font-size: $h4-size;
+    }
 }
 
-// ui elements
 .actions {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+
     a,
     button {
         &:hover {
             animation: emphasis .4s both ease-out
         }
     }
+
     a:not(:last-child),
     button:not(:last-child) {
         margin-right: 16px

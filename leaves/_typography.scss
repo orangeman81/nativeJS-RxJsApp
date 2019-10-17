@@ -1,6 +1,6 @@
 html {
     font-weight: $regular;
-    font-family: 'Open Sans', sans-serif;
+    font-family: $body-font;
     line-height: 1.4;
     color: $off-black;
 
@@ -59,6 +59,7 @@ h4,
 h5,
 h6,
 .title {
+    font-family: $headers-font;
     line-height: 1.2;
 }
 
@@ -84,16 +85,6 @@ p {
 p {
     margin: .25rem 0;
     line-height: inherit
-}
-
-main>header,
-main>section>header {
-    display: flex;
-    justify-content: space-between;
-
-    h1~p {
-        font-size: $h4-size;
-    }
 }
 
 time {
@@ -125,7 +116,7 @@ a {
 
         &:hover,
         &.active {
-            color: darken($color, 25%);
+            color: lighten($color, 4%);
         }
     }
 }
