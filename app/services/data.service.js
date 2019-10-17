@@ -1,19 +1,25 @@
 import { Store } from "../models/store.class.js";
 import { from } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
-import { tap, filter, concatMap } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+import { tap, first } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { AppState } from "../models/AppState.class.js";
-import { TileList, Details } from "../models/leaves.js";
+import { Details, TileList } from "../models/leaves.js";
 
 class DataService extends Store {
 
     constructor() {
-        super(new AppState());
-        this.template = document.querySelector('#template');
+        super(new AppState([], "jimi hendrix", "list"));
+    }
+
+    get data() {
+        return this.store.data;
     }
 
     get query() {
-        const query = this.store.query;
-        return query;
+        return this.store.query;
+    }
+
+    get page() {
+        return this.store.page;
     }
 
     fetchMusic(query) {
@@ -28,8 +34,7 @@ class DataService extends Store {
                 return response.json();
             })
             .then(response => {
-                this.store = new AppState(response.data, query, "list")
-                return this.template.innerHTML = TileList(response.data);
+                this.store = new AppState(response.data, query, TileList(response.data))
             })
             .catch(err => {
                 console.log(err);
@@ -50,11 +55,9 @@ class DataService extends Store {
                 tap(res => {
                     this.store = {
                         ...this.store,
-                        data: res,
-                        page: "details"
+                        page: Details(res)
                     };
                 }),
-                concatMap(() => this.$render())
             )
 
         return $http;
@@ -71,39 +74,17 @@ class DataService extends Store {
 
         const $http = from(promise)
             .pipe(
+                first(),
                 tap(res => {
                     this.store = {
                         ...this.store,
-                        data: res.data,
                         query: query,
-                        page: "list"
+                        page: TileList(res.data)
                     };
                 }),
-                concatMap(() => this.$render())
             )
 
         return $http;
-    }
-
-    $render() {
-        return this.$store
-            .pipe(
-                filter(state => state.data),
-                tap(state => {
-                    console.log(state);
-                    switch (state.page) {
-                        case "list": {
-                            return this.template.innerHTML = TileList(state.data);
-                        }
-                        case "details": {
-                            return this.template.innerHTML = Details(state.data);
-                        }
-                        default: {
-                            return this.template.innerHTML = TileList(state.data);
-                        }
-                    }
-                })
-            );
     }
 
 }

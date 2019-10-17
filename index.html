@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Native js App</title>
-    <!-- Compiled and minified CSS -->
+    <title>Rock Heroes</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="module" src="./app/albums.js"></script>
+    <script type="module" src="./app/app.js"></script>
 </head>
 
 <body>
@@ -25,12 +24,12 @@
                     <input class="noLine" name="query" type="search" required>
                 </form>
             </li>
-            <li><a class="reverse" href="radio.html"><i class="material-icons tile-icon">radio</i></a></li>
-            <li><a class="reverse" href="heroes.html"><i class="material-icons tile-icon">emoji_events</i></a></li>
+            <li><a class="reverse"><i class="material-icons tile-icon" data-path="home">radio</i></a></li>
+            <li><a class="reverse"><i class="material-icons tile-icon" data-path="albums">emoji_events</i></a></li>
         </ul>
     </nav>
     <main class="container">
-        <div class="row" id="template"></div>
+        <div class="row" id="app"></div>
     </main>
     <footer id="mainFooter">
         <p>Rock Heroes</p>

@@ -18,11 +18,14 @@ export const TileList = (list) => {
         const tile = Tile(data)
         tileList = tileList.concat(tile);
     })
+    const header = Header(list[0]);
+    tileList = header.concat(tileList);
     return tileList;
 }
 
 export const Details = (data) => {
     const trackList = data.tracks.data;
+    const header = TrackHeader(data);
 
     let ul = document.createElement("ul");
     ul.classList.add("col", "s12", "list");
@@ -41,20 +44,21 @@ export const Details = (data) => {
         li.innerHTML = template;
         list = list.concat(li.outerHTML);
     });
-    const header = Header(data);
+
     ul.innerHTML = list;
     const results = header.concat(ul.outerHTML);
+
     return results;
 };
 
-const Header = (data) => `
+const TrackHeader = (data) => `
     <div class="col s12">
         <header class="mainHeader">
             <span class="d-flex f-center">
-                <img src="${data.cover}" class="imgRound mr-24">
+                <img src="${data.artist.picture}" class="imgRound mr-24">
                 <span>
                     <h1>${data.artist.name}</h1>
-                    <p>Track list</p>
+                    <p class="d-flex f-center">${data.type}&ensp;&VerticalSeparator;&ensp;${data.title}</p>
                 </span>
             </span>
             <span class="actions">
@@ -62,6 +66,21 @@ const Header = (data) => `
                     <i data-action="back" class="material-icons tile-icon">list</i>
                 </a>
             </span>
+        </header>
+        <hr>
+    </div>
+`;
+
+const Header = (data) => `
+    <div class="col s12">
+        <header class="mainHeader">
+                <span class="d-flex f-center">
+                    <img src="${data.artist.picture}" class="imgRound mr-24">
+                    <span>
+                        <h1>${data.artist.name}</h1>
+                        <p class="d-flex f-center">${data.artist.type}&ensp;&VerticalSeparator;&ensp;<i class="material-icons tile-icon">favorite</i>&thinsp;${data.rank}</p>
+                    </span>
+                </span>
         </header>
         <hr>
     </div>
