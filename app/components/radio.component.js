@@ -1,5 +1,5 @@
 import { data } from "../services/data.service.js";
-import { Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
+import { fromEvent, Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import {
     filter,
     tap,
@@ -8,11 +8,13 @@ import {
     switchMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { Loader } from "../models/leaves.js";
+import { Helper } from "../models/helper.class.js";
 
 class RadioComponent {
 
     constructor() {
         this.renderSub = new Subscription();
+        this.actionSub = new Subscription();
         this.template$ = new BehaviorSubject("");
     }
 
@@ -21,9 +23,26 @@ class RadioComponent {
     }
 
     init() {
-        this.renderSub = data.$fetchRadio()
+        this.renderSub = data.$fetchRadioList()
             .pipe(
                 switchMap(() => this.$render()),
+            )
+            .subscribe();
+
+        // details navigation handler
+        const $actions = fromEvent(document, "click");
+        this.actionSub = $actions
+            .pipe(
+                filter(event => event.target.matches("[data-id]")),
+                tap(event => {
+                    Helper.eventHandler(event, true);
+                }),
+                pluck("target"),
+                switchMap(element => {
+                    this.template = Loader();
+                    const id = Number(element.dataset.id);
+                    return data.$fetchRadio(id);
+                })
             )
             .subscribe();
     }
@@ -44,6 +63,7 @@ class RadioComponent {
     destroy() {
         this.template = Loader();
         this.renderSub.unsubscribe();
+        this.actionSub.unsubscribe();
     }
 
 }

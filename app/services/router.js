@@ -1,8 +1,9 @@
 import { BehaviorSubject, fromEvent, Subscription } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import { tap, filter, switchMap } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { Helper } from '../models/helper.class.js';
+import { routes } from '../models/routes.js';
 
-export class Router {
+class Router {
 
     constructor(routes) {
         this.routerOutlet = document.querySelector("#app");
@@ -11,7 +12,6 @@ export class Router {
         this.sub = new Subscription();
         this.eventSub = new Subscription();
         this.page = routes[0];
-        this.init();
     }
 
     get page() {
@@ -28,14 +28,14 @@ export class Router {
     init() {
         this.sub = this.$page
             .pipe(
-                tap(page => (page.component.init(), console.log("executed", page))),
+                tap(page => page.component.init()),
                 switchMap(page => page.component.template$),
                 tap(template => this.routerOutlet.innerHTML = template)
             )
             .subscribe();
 
         this.eventSub = this.$routerListener()
-            .subscribe(() => console.log("routerEvents"));
+            .subscribe(event => console.log("routerEvents", event));
     }
 
     $routerListener() {
@@ -68,3 +68,6 @@ export class Router {
     }
 
 }
+
+const router = new Router(routes);
+export default router;

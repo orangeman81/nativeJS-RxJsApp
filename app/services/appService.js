@@ -11,6 +11,7 @@ import {
 } from "https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators"
 import { data } from "./data.service.js";
 import { Helper } from '../models/helper.class.js';
+import router from './router.js';
 
 export class AppService {
 
@@ -37,36 +38,9 @@ export class AppService {
                     const queryValue = event.target.value.trim();
                     return queryValue;
                 }),
-                switchMap(query => data.$search(query)),
+                switchMap(query => data.$search(query).pipe(tap(() => router.navigate("home")))),
                 auditTime(3000),
                 tap(() => (query.reset(), query.elements[0].blur()))
-            )
-            .subscribe();
-
-        // global navigation handler
-        const $actions = fromEvent(document, "click");
-        this.actionSub = $actions
-            .pipe(
-                filter(event => event.target.matches("[data-action]")),
-                tap(event => {
-                    Helper.eventHandler(event, true);
-                }),
-                pluck("target"),
-                switchMap(element => {
-                    const action = element.dataset.action;
-                    switch (action) {
-                        case "details": {
-                            const id = Number(element.dataset.id);
-                            return data.$fetchAlbum(id);
-                        }
-                        case "back": {
-                            return data.$search(data.query);
-                        }
-                        default: {
-                            return false
-                        }
-                    }
-                })
             )
             .subscribe();
     }

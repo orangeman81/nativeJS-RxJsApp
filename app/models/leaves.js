@@ -29,7 +29,7 @@ export const RadioList = (list) => {
         wrapper.classList.add("col", "s6", "m4")
         const background = `background: #fff url('${data.picture_big}') no-repeat;background-size:cover`;
         const template = `
-            <a href="${data.tracklist}" target="_blank" style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.id}">
+            <a target="_blank" style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.id}">
                 <h4>${data.title}</h4>
                 <h5>${data.title}</h5>
             </a>

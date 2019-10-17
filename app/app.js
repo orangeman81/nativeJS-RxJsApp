@@ -1,13 +1,12 @@
-import { Router } from "./services/router.js";
-import { routes } from "./models/routes.js";
+import router from "./services/router.js";
 import { AppService } from "./services/appService.js";
 
 window.onload = () => {
-    const router = new Router(routes);
-    const searchListener = new AppService();
+    const appListener = new AppService();
+    router.init();
 }
 
 window.onbeforeunload = () => {
     router.destroy();
-    searchListener.destroy();
+    appListener.destroy();
 }

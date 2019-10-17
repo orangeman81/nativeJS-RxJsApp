@@ -63,7 +63,7 @@ class DataService extends Store {
         return $http;
     }
 
-    $fetchRadio() {
+    $fetchRadioList() {
         const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/lists`, {
             "method": "GET",
             "headers": {
@@ -78,6 +78,28 @@ class DataService extends Store {
                     this.store = {
                         ...this.store,
                         page: RadioList(res.data)
+                    };
+                }),
+            )
+
+        return $http;
+    }
+
+    $fetchRadio(id) {
+        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/${id}/tracks`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
+            }
+        }).then(res => res.json());
+
+        const $http = from(promise)
+            .pipe(
+                tap(res => {
+                    this.store = {
+                        ...this.store,
+                        page: TileList(res.data)
                     };
                 }),
             )
