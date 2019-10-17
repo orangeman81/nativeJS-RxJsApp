@@ -2,9 +2,10 @@ import { data } from "../services/data.service.js";
 import { Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import {
     filter,
-    map,
+    tap,
     switchMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+import { Loader } from "../models/leaves.js";
 
 class Home {
 
@@ -29,14 +30,15 @@ class Home {
         return data.$store
             .pipe(
                 filter(state => state.page != ""),
-                map(state => {
+                tap(state => {
+                    console.log("rendering", state);
                     this.template = state.page;
-                    return state.page;
                 })
             );
     }
 
     destroy() {
+        this.template = Loader();
         this.renderSub.unsubscribe();
     }
 

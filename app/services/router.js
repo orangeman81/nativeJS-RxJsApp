@@ -1,5 +1,5 @@
 import { BehaviorSubject, fromEvent, Subscription } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
-import { tap, filter, switchMap, distinctUntilChanged, auditTime } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+import { tap, filter, switchMap } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { Helper } from '../models/helper.class.js';
 
 export class Router {
@@ -28,9 +28,7 @@ export class Router {
     init() {
         this.sub = this.$page
             .pipe(
-                distinctUntilChanged(),
                 tap(page => (page.component.init(), console.log("executed", page))),
-                auditTime(300),
                 switchMap(page => page.component.template$),
                 tap(template => this.routerOutlet.innerHTML = template)
             )
@@ -44,7 +42,6 @@ export class Router {
         const $routerListener = fromEvent(document, "click")
             .pipe(
                 filter(event => event.target.matches("[data-path]")),
-                distinctUntilChanged(),
                 tap(event => {
                     Helper.eventHandler(event, true);
                     const path = event.target.dataset.path;

@@ -2,7 +2,7 @@ import { Store } from "../models/store.class.js";
 import { from } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import { tap, first } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { AppState } from "../models/AppState.class.js";
-import { Details, TileList } from "../models/leaves.js";
+import { Details, TileList, RadioList } from "../models/leaves.js";
 
 class DataService extends Store {
 
@@ -56,6 +56,28 @@ class DataService extends Store {
                     this.store = {
                         ...this.store,
                         page: Details(res)
+                    };
+                }),
+            )
+
+        return $http;
+    }
+
+    $fetchRadio() {
+        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/lists`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
+            }
+        }).then(res => res.json());
+
+        const $http = from(promise)
+            .pipe(
+                tap(res => {
+                    this.store = {
+                        ...this.store,
+                        page: RadioList(res.data)
                     };
                 }),
             )

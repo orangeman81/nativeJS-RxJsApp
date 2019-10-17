@@ -2,9 +2,12 @@ import { data } from "../services/data.service.js";
 import { Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import {
     filter,
-    map,
+    tap,
+    pluck,
+    distinctUntilChanged,
     switchMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+import { Loader } from "../models/leaves.js";
 
 class RadioComponent {
 
@@ -18,7 +21,7 @@ class RadioComponent {
     }
 
     init() {
-        this.renderSub = data.$fetchAlbum(596251)
+        this.renderSub = data.$fetchRadio()
             .pipe(
                 switchMap(() => this.$render()),
             )
@@ -28,15 +31,18 @@ class RadioComponent {
     $render() {
         return data.$store
             .pipe(
-                filter(state => state.page != ""),
-                map(state => {
-                    this.template = state.page;
-                    return state.page;
+                pluck("page"),
+                distinctUntilChanged(),
+                filter(page => page != ""),
+                tap(page => {
+                    console.log("rendering radio");
+                    this.template = page;
                 })
             );
     }
 
     destroy() {
+        this.template = Loader();
         this.renderSub.unsubscribe();
     }
 
