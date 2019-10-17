@@ -8,6 +8,7 @@ import {
     filter,
     map,
     tap,
+    pluck,
     switchMap,
     mergeMap
 } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
@@ -39,19 +40,24 @@ window.onload = () => {
     const $actions = fromEvent(document, "click");
     const actionSub = $actions
         .pipe(
-            filter(event => event.target.href),
-            map(event => {
+            tap(event => {
                 Helper.eventHandler(event, true);
-                return event.target;
             }),
+            filter(event => event.target.matches("[data-action]")),
+            pluck("target"),
             mergeMap(element => {
-                if (element.matches("[data-id]")) {
-                    const id = Number(element.dataset.id);
-                    return data.$fetchAlbum(id);
-                }
-
-                if (element.matches("#back")) {
-                    return data.$search(data.query);
+                const action = element.dataset.action;
+                switch (action) {
+                    case "details": {
+                        const id = Number(element.dataset.id);
+                        return data.$fetchAlbum(id);
+                    }
+                    case "back": {
+                        return data.$search(data.query);
+                    }
+                    default: {
+                        return false
+                    }
                 }
             })
         )

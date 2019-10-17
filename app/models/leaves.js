@@ -1,9 +1,9 @@
 export const Tile = (data) => {
     let wrapper = document.createElement("div");
-    wrapper.classList.add("col", "s6", "m4")
+    wrapper.classList.add("col", "s4", "m3")
     const background = `background: #fff url('${data.album.cover_big}') no-repeat;background-size:cover`;
     const template = `
-        <a href style="${background}" class="tile imgTile reverse" data-id="${data.album.id}">
+        <a href style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.album.id}">
             <h4>${data.album.title}</h4>
             <h5>${data.artist.name}</h5>
         </a>
@@ -58,8 +58,8 @@ const Header = (data) => `
                 </span>
             </span>
             <span class="actions">
-                <a href id="back">
-                    <i class="material-icons tile-icon">list</i>
+                <a href>
+                    <i data-action="back" class="material-icons tile-icon">list</i>
                 </a>
             </span>
         </header>
