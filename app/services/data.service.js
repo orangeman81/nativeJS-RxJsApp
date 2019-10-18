@@ -1,8 +1,8 @@
 import { Store } from "../models/store.class.js";
-import { from } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
+import { from, forkJoin } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
 import { tap, first } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { AppState } from "../models/AppState.class.js";
-import { Details, TileList, RadioList } from "../models/leaves.js";
+import { Details, TileList, RadioList, RadioDetails } from "../models/leaves.js";
 
 class DataService extends Store {
 
@@ -20,6 +20,24 @@ class DataService extends Store {
 
     get page() {
         return this.store.page;
+    }
+
+    $fetch(query, method = "GET") {
+        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/${query}`, {
+            "method": method,
+            "headers": {
+                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        return from(promise);
     }
 
     fetchMusic(query) {
@@ -42,15 +60,7 @@ class DataService extends Store {
     }
 
     $fetchAlbum(id) {
-        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/album/${id}`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
-            }
-        }).then(res => res.json());
-
-        const $http = from(promise)
+        return this.$fetch(`album/${id}`)
             .pipe(
                 tap(res => {
                     this.store = {
@@ -59,20 +69,10 @@ class DataService extends Store {
                     };
                 }),
             )
-
-        return $http;
     }
 
     $fetchRadioList() {
-        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/lists`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
-            }
-        }).then(res => res.json());
-
-        const $http = from(promise)
+        return this.$fetch(`radio/lists`)
             .pipe(
                 tap(res => {
                     this.store = {
@@ -81,42 +81,24 @@ class DataService extends Store {
                     };
                 }),
             )
-
-        return $http;
     }
 
     $fetchRadio(id) {
-        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/${id}/tracks`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
-            }
-        }).then(res => res.json());
-
-        const $http = from(promise)
+        const $radioDetails = forkJoin(this.$fetch(`radio/${id}`), this.$fetch(`radio/${id}/tracks`))
+        return $radioDetails
             .pipe(
-                tap(res => {
+                tap(radio => {
                     this.store = {
                         ...this.store,
-                        page: TileList(res.data)
+                        page: RadioDetails(radio)
                     };
                 }),
             )
 
-        return $http;
     }
 
     $search(query) {
-        const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/search?q=${query}`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-                "x-rapidapi-key": "6d76812301mshae66073ae2beca5p1e12adjsnc9f2b3725389"
-            }
-        }).then(res => res.json());
-
-        const $http = from(promise)
+        return this.$fetch(`search?q=${query}`)
             .pipe(
                 first(),
                 tap(res => {
@@ -127,8 +109,6 @@ class DataService extends Store {
                     };
                 }),
             )
-
-        return $http;
     }
 
 }

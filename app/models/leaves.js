@@ -3,7 +3,7 @@ export const Tile = (data) => {
     wrapper.classList.add("col", "s6", "m4")
     const background = `background: #fff url('${data.album.cover_big}') no-repeat;background-size:cover`;
     const template = `
-        <a href style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.album.id}">
+        <a href style="${background}" class="tile imgTile white" data-action="details" data-id="${data.album.id}">
             <h4>${data.title_short}</h4>
             <h5>${data.artist.name}&ensp;&VerticalSeparator;&ensp;${data.type}</h5>
         </a>
@@ -29,7 +29,7 @@ export const RadioList = (list) => {
         wrapper.classList.add("col", "s6", "m4")
         const background = `background: #fff url('${data.picture_big}') no-repeat;background-size:cover`;
         const template = `
-            <a target="_blank" style="${background}" class="tile imgTile reverse" data-action="details" data-id="${data.id}">
+            <a target="_blank" style="${background}" class="tile imgTile white" data-action="details" data-id="${data.id}">
                 <h4>${data.title}</h4>
                 <h5>${data.title}</h5>
             </a>
@@ -73,6 +73,38 @@ export const Details = (data) => {
     return results;
 };
 
+export const RadioDetails = (data) => {
+    const trackList = data[1].data;
+    const header = RadioHeader(data[0]);
+
+
+    let ul = document.createElement("ul");
+    ul.classList.add("col", "s12", "list");
+
+    let list = "";
+
+    trackList.forEach(element => {
+        let template = `
+            <span class="d-flex f-center">
+                <img src="${element.album.cover_medium}" class="imgRound mr-24">
+                <h5>${element.artist.name}&ensp;&VerticalSeparator;&ensp;${element.title_short}</h5>
+            </span>
+            <audio controls>
+                <source src="${element.preview}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        `;
+        let li = document.createElement("li");
+        li.innerHTML = template;
+        list = list.concat(li.outerHTML);
+    });
+
+    ul.innerHTML = list;
+    const results = header.concat(ul.outerHTML);
+
+    return results;
+};
+
 export const Loader = () => `
     <div class="loaderWrapper">
         <div class="ripple">
@@ -89,7 +121,7 @@ const TrackHeader = (data) => `
                 <img src="${data.artist.picture}" class="imgRound mr-24">
                 <span>
                     <h1>${data.artist.name}</h1>
-                    <p class="d-flex f-center">${data.type}&ensp;&VerticalSeparator;&ensp;${data.title}</p>
+                    <p class="d-flex f-center">${data.title}</p>
                 </span>
             </span>
             <span class="actions">
@@ -110,6 +142,20 @@ const Header = (data) => `
                     <span>
                         <h1>${data.artist.name}</h1>
                         <p class="d-flex f-center">${data.artist.type}&ensp;&VerticalSeparator;&ensp;<i class="material-icons tile-icon">favorite</i>&thinsp;${data.rank}</p>
+                    </span>
+                </span>
+        </header>
+        <hr>
+    </div>
+`;
+
+const RadioHeader = (data) => `
+    <div class="col s12">
+        <header class="mainHeader">
+                <span class="d-flex f-center">
+                    <img src="${data.picture_medium}" class="imgRound mr-24">
+                    <span>
+                        <h1>${data.title}</h1>
                     </span>
                 </span>
         </header>

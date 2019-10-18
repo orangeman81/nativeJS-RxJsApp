@@ -1,19 +1,20 @@
 nav {
     height: 60px;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     box-sizing: border-box;
     padding: 16px 24px;
     background-color: $navbarColor;
     margin-bottom: 56px;
     border-bottom: solid 1px $lineGray;
 
-    &>a,
-    &>ul {
-        display: flex;
-        align-items: center;
+    @extend .d-flex;
+    @extend .f-center;
+    @extend .f-justify-b;
+
+    &>* {
+        height: inherit;
+        @extend .d-flex;
+        @extend .f-center;
     }
 
     &>ul {
@@ -32,12 +33,12 @@ nav {
 
     .navSearch {
         position: relative;
+        @extend .d-flex;
+        @extend .f-center;
 
         label {
             position: absolute;
-            top: 6px;
             left: -32px;
-
             i {
                 color: $off-white
             }
@@ -53,7 +54,7 @@ nav {
             &:hover,
             &:focus,
             &:active {
-                max-width: 24vh;
+                max-width: 16vh;
             }
         }
     }
