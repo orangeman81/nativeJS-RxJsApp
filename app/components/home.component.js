@@ -47,6 +47,7 @@ class Home {
                             return data.$fetchAlbum(id);
                         }
                         case "back": {
+                            this.template = Loader();
                             return data.$search(data.query);
                         }
                         default: {
