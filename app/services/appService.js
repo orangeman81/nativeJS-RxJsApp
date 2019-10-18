@@ -6,7 +6,6 @@ import {
     filter,
     map,
     tap,
-    pluck,
     switchMap
 } from "https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators"
 import { data } from "./data.service.js";
@@ -28,18 +27,17 @@ export class AppService {
         this.sub = $query
             .pipe(
                 tap(event => {
-                    event.preventDefault();
-                    event.stopPropagation();
+                    Helper.eventHandler(event);
                 }),
                 distinctUntilChanged(),
-                debounceTime(600),
+                debounceTime(800),
                 filter(event => event.target.value.trim() != ""),
                 map(event => {
                     const queryValue = event.target.value.trim();
                     return queryValue;
                 }),
                 switchMap(query => data.$search(query).pipe(tap(() => router.navigate("home")))),
-                auditTime(3000),
+                auditTime(4000),
                 tap(() => (query.reset(), query.elements[0].blur()))
             )
             .subscribe();

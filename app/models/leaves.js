@@ -87,7 +87,7 @@ export const RadioDetails = (data) => {
         let template = `
             <span class="d-flex f-center">
                 <img src="${element.album.cover_medium}" class="imgRound mr-24">
-                <h5>${element.artist.name}&ensp;&VerticalSeparator;&ensp;${element.title_short}</h5>
+                <p>${element.artist.name}&ensp;&VerticalSeparator;&ensp;${element.title_short}</p>
             </span>
             <audio controls>
                 <source src="${element.preview}" type="audio/mpeg">
@@ -157,6 +157,11 @@ const RadioHeader = (data) => `
                     <span>
                         <h1>${data.title}</h1>
                     </span>
+                </span>
+                <span class="actions">
+                    <a href>
+                        <i data-action="back" class="material-icons tile-icon">list</i>
+                    </a>
                 </span>
         </header>
         <hr>

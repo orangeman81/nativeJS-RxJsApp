@@ -33,15 +33,27 @@ class RadioComponent {
         const $actions = fromEvent(document, "click");
         this.actionSub = $actions
             .pipe(
-                filter(event => event.target.matches("[data-id]")),
+                filter(event => event.target.matches("[data-action]")),
                 tap(event => {
                     Helper.eventHandler(event, true);
                 }),
                 pluck("target"),
                 switchMap(element => {
-                    this.template = Loader();
-                    const id = Number(element.dataset.id);
-                    return data.$fetchRadio(id);
+                    const action = element.dataset.action;
+                    switch (action) {
+                        case "details": {
+                            this.template = Loader();
+                            const id = Number(element.dataset.id);
+                            return data.$fetchRadio(id);
+                        }
+                        case "back": {
+                            this.template = Loader();
+                            return data.$fetchRadioList();
+                        }
+                        default: {
+                            return false
+                        }
+                    }
                 })
             )
             .subscribe();
