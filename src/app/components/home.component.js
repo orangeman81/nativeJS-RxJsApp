@@ -1,12 +1,12 @@
 import { data } from "../services/data.service.js";
-import { fromEvent, Subscription, BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
+import { fromEvent, Subscription, BehaviorSubject } from 'rxjs';
 import {
     filter,
     tap,
     pluck,
     distinctUntilChanged,
     switchMap
-} from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
+} from 'rxjs/operators';
 import { Loader } from "../models/leaves.js";
 import { Helper } from "../models/helper.class.js";
 

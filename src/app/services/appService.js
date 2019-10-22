@@ -1,4 +1,4 @@
-import { fromEvent, Subscription } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
+import { fromEvent, Subscription } from 'rxjs';
 import {
     debounceTime,
     distinctUntilChanged,
@@ -7,7 +7,7 @@ import {
     map,
     tap,
     switchMap
-} from "https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators"
+} from "rxjs/operators"
 import { data } from "./data.service.js";
 import { Helper } from '../models/helper.class.js';
 import router from './router.js';

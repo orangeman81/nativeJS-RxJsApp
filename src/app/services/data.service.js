@@ -1,8 +1,8 @@
 import { Store } from "../models/store.class.js";
-import { from, forkJoin } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
-import { tap, first } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/operators';
 import { AppState } from "../models/AppState.class.js";
 import { Details, TileList, RadioList, RadioDetails } from "../models/leaves.js";
+import { from, forkJoin } from "rxjs";
+import { first, tap } from "rxjs/operators";
 
 class DataService extends Store {
 

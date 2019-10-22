@@ -1,3 +1,4 @@
+import '../styles.scss';
 import router from "./services/router.js";
 import { AppService } from "./services/appService.js";
 

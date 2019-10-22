@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'https://unpkg.com/@reactivex/rxjs@6.5.3/dist/esm2015/index.js';
+import { BehaviorSubject } from "rxjs";
 
 export class Store {
 
