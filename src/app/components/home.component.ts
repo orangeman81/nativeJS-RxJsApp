@@ -7,15 +7,19 @@ import {
     distinctUntilChanged,
     switchMap
 } from 'rxjs/operators';
-import { Loader } from "../models/leaves.js";
-import { Helper } from "../models/helper.class.js";
+import { Loader } from "../models/leaves";
+import { Helper } from "../models/helper.class";
 
-class RadioComponent {
+class Home {
+
+    template$: BehaviorSubject<string>;
+    renderSub: Subscription;
+    actionSub: Subscription;
 
     constructor() {
+        this.template$ = new BehaviorSubject(Loader());
         this.renderSub = new Subscription();
         this.actionSub = new Subscription();
-        this.template$ = new BehaviorSubject("");
     }
 
     set template(value) {
@@ -23,9 +27,9 @@ class RadioComponent {
     }
 
     init() {
-        this.renderSub = data.$fetchRadioList()
+        this.renderSub = data.$search(data.query)
             .pipe(
-                switchMap(() => this.$render()),
+                switchMap(() => this.$render())
             )
             .subscribe();
 
@@ -33,25 +37,25 @@ class RadioComponent {
         const $actions = fromEvent(document, "click");
         this.actionSub = $actions
             .pipe(
-                filter(event => event.target.matches("[data-action]")),
+                filter((event: Event) => (event.target as HTMLElement).matches("[data-action]")),
                 tap(event => {
                     Helper.eventHandler(event, true);
                 }),
                 pluck("target"),
-                switchMap(element => {
+                switchMap((element: HTMLElement) => {
                     const action = element.dataset.action;
                     switch (action) {
                         case "details": {
                             this.template = Loader();
                             const id = Number(element.dataset.id);
-                            return data.$fetchRadio(id);
+                            return data.$fetchAlbum(id);
                         }
                         case "back": {
                             this.template = Loader();
-                            return data.$fetchRadioList();
+                            return data.$search(data.query);
                         }
                         default: {
-                            return false
+                            return null
                         }
                     }
                 })
@@ -61,15 +65,15 @@ class RadioComponent {
 
     $render() {
         return data.$store
-            .pipe(
-                pluck("page"),
-                distinctUntilChanged(),
-                filter(page => page != ""),
-                tap(page => {
-                    console.log("rendering radio");
-                    this.template = page;
-                })
-            );
+        .pipe(
+            pluck("page"),
+            distinctUntilChanged(),
+            filter(page => page != ""),
+            tap(page => {
+                console.log("rendering tails");
+                this.template = page;
+            })
+        );
     }
 
     destroy() {
@@ -80,5 +84,5 @@ class RadioComponent {
 
 }
 
-const radioComponent = new RadioComponent();
-export default radioComponent;
+const HomeComponent = new Home();
+export default HomeComponent;

@@ -8,11 +8,14 @@ import {
     tap,
     switchMap
 } from "rxjs/operators"
-import { data } from "./data.service.js";
-import { Helper } from '../models/helper.class.js';
-import router from './router.js';
+import { data } from "./data.service";
+import { Helper } from '../models/helper.class';
+import router from './router';
 
 class AppService {
+
+    sub: Subscription;
+    actionSub: Subscription;
 
     constructor() {
         this.sub = new Subscription();
@@ -21,7 +24,7 @@ class AppService {
 
     init() {
         // global search handler
-        const query = document.querySelector("#queryForm");
+        const query: HTMLFormElement = document.querySelector("#queryForm");
         const $query = fromEvent(query, "input");
         this.sub = $query
             .pipe(
@@ -30,14 +33,14 @@ class AppService {
                 }),
                 distinctUntilChanged(),
                 debounceTime(800),
-                filter(event => event.target.value.trim() != ""),
-                map(event => {
-                    const queryValue = event.target.value.trim();
+                filter((event: InputEvent) => (event.target as HTMLInputElement).value.trim() != ""),
+                map((event: InputEvent) => {
+                    const queryValue = (event.target as HTMLInputElement).value.trim();
                     return queryValue;
                 }),
                 switchMap(query => data.$search(query).pipe(tap(() => router.navigate("home")))),
                 auditTime(4000),
-                tap(() => (query.reset(), query.elements[0].blur()))
+                tap(() => (query.reset(), (query.elements[0] as HTMLInputElement).blur()))
             )
             .subscribe();
     }

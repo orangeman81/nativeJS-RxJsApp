@@ -1,10 +1,10 @@
-import { Store } from "../models/store.class.js";
-import { AppState } from "../models/AppState.class.js";
-import { Details, TileList, RadioList, RadioDetails } from "../models/leaves.js";
-import { from, forkJoin } from "rxjs";
+import { Store } from "../models/store.class";
+import { AppState } from "../models/AppState.class";
+import { Details, TileList, RadioList, RadioDetails } from "../models/leaves";
+import { from, forkJoin, Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
 
-class DataService extends Store {
+class DataService extends Store<AppState> {
 
     constructor() {
         super(new AppState([], "jimi hendrix", ""));
@@ -22,7 +22,7 @@ class DataService extends Store {
         return this.store.page;
     }
 
-    $fetch(query, method = "GET") {
+    $fetch(query, method = "GET"): Observable<any> {
         const promise = fetch(`https://deezerdevs-deezer.p.rapidapi.com/${query}`, {
             "method": method,
             "headers": {
@@ -40,8 +40,8 @@ class DataService extends Store {
         return from(promise);
     }
 
-    fetchMusic(query) {
-        fetch(`https://deezerdevs-deezer.p.rapidapi.com/search?q=${query}`, {
+    fetchMusic(query): Promise<any> {
+        return fetch(`https://deezerdevs-deezer.p.rapidapi.com/search?q=${query}`, {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
@@ -59,7 +59,7 @@ class DataService extends Store {
             });
     }
 
-    $fetchAlbum(id) {
+    $fetchAlbum(id): Observable<any> {
         return this.$fetch(`album/${id}`)
             .pipe(
                 tap(res => {
@@ -71,7 +71,7 @@ class DataService extends Store {
             )
     }
 
-    $fetchRadioList() {
+    $fetchRadioList(): Observable<any> {
         return this.$fetch(`radio/lists`)
             .pipe(
                 tap(res => {
@@ -83,7 +83,7 @@ class DataService extends Store {
             )
     }
 
-    $fetchRadio(id) {
+    $fetchRadio(id): Observable<any> {
         const $radioDetails = forkJoin(this.$fetch(`radio/${id}`), this.$fetch(`radio/${id}/tracks`))
         return $radioDetails
             .pipe(
@@ -97,7 +97,7 @@ class DataService extends Store {
 
     }
 
-    $search(query) {
+    $search(query): Observable<any> {
         return this.$fetch(`search?q=${query}`)
             .pipe(
                 first(),

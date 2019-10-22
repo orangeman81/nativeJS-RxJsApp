@@ -1,14 +1,20 @@
+import { Page } from './../models/page.interface';
 import { BehaviorSubject, fromEvent, Subscription, forkJoin } from 'rxjs';
 import { tap, filter, switchMap } from 'rxjs/operators';
 import { Helper } from '../models/helper.class';
 import { routes } from '../models/routes';
 
 class Router {
+    routerOutlet: HTMLElement;
+    routes: Page[];
+    page$: BehaviorSubject<Page>;
+    sub: Subscription;
+    eventSub: Subscription;
 
-    constructor(routes) {
+    constructor(public intialRoutes: Page[]) {
         this.routerOutlet = document.querySelector("#app");
         this.routes = routes;
-        this.page$ = new BehaviorSubject({});
+        this.page$ = new BehaviorSubject<Page>({ path: "", component: null });
         this.sub = new Subscription();
         this.eventSub = new Subscription();
     }
@@ -38,7 +44,7 @@ class Router {
             .pipe(
                 tap(page => page.component.init()),
                 switchMap(page => page.component.template$),
-                tap(template => this.routerOutlet.innerHTML = template)
+                tap((template: string) => this.routerOutlet.innerHTML = template)
             )
             .subscribe();
 
@@ -51,23 +57,23 @@ class Router {
         // listener to window location hash change
         const $hashListener = fromEvent(window, "hashchange")
             .pipe(
-                tap(event => this.navigate(event.path[0].location.hash.slice(1)))
+                tap(() => this.navigate(location.hash.slice(1)))
             )
         // listener to navbar links click
         const $linksListener = fromEvent(document, "click")
             .pipe(
-                filter(event => event.target.matches("[data-path]")),
+                filter((event: Event) => (event.target as HTMLElement).matches("[data-path]")),
                 tap(event => {
                     Helper.eventHandler(event, true);
-                    const path = event.target.dataset.path;
+                    const path = (event.target as HTMLElement).dataset.path;
                     window.location.hash = path;
                 })
             );
         return forkJoin($linksListener, $hashListener);
     }
 
-    navigate(path) {
-        let page = this.routes.find(route => {
+    navigate(path: string) {
+        let page: Page = this.routes.find(route => {
             return route.path === path
         });
         if (page === undefined) {

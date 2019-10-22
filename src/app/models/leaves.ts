@@ -170,9 +170,6 @@ const RadioHeader = (data) => `
 
 export const ErrorPage = () => `
     <div class="centeredLayout">
-        <div class="ripple">
-            <div></div>
-            <div></div>
-        </div>
+        <h2>An error occurred</h2>
     </div>
 `;

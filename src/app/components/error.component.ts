@@ -1,14 +1,13 @@
+import { Component } from './../models/component.class';
 import { ErrorPage, Loader } from "../models/leaves";
 import { BehaviorSubject } from "rxjs";
 
-class Error {
+class Error extends Component {
+
+    template$: BehaviorSubject<string>;
 
     constructor() {
-        this.template$ = new BehaviorSubject("");
-    }
-
-    set template(value) {
-        this.template$.next(value);
+        super(new Component(""))
     }
 
     init() {

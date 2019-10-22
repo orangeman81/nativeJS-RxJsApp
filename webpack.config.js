@@ -11,7 +11,8 @@ module.exports = {
         port: 3030,
         hot: true
     },
-    entry: './src/app/app.js',
+    entry: './src/app/app.ts',
+    devtool: 'inline-source-map',
     output: {
         filename: 'app.js',
         chunkFilename: 'shared.js',
@@ -31,6 +32,11 @@ module.exports = {
                 }
             },
             {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.s[ac]ss$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             },
@@ -46,6 +52,9 @@ module.exports = {
                 ]
             }
         ]
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
         splitChunks: {

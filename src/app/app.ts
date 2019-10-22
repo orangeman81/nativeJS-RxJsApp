@@ -1,6 +1,6 @@
 import '../styles.scss';
-import router from "./services/router.js";
-import appService from "./services/appService.js";
+import router from "./services/router";
+import appService from "./services/appService";
 
 window.onload = () => {
     router.init();
