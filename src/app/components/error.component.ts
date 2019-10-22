@@ -1,10 +1,7 @@
 import { Component } from './../models/component.class';
 import { ErrorPage, Loader } from "../models/leaves";
-import { BehaviorSubject } from "rxjs";
 
 class Error extends Component {
-
-    template$: BehaviorSubject<string>;
 
     constructor() {
         super(new Component(""))
