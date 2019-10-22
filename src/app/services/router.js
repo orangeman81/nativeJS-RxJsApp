@@ -1,7 +1,7 @@
-import { BehaviorSubject, fromEvent, Subscription } from 'rxjs';
+import { BehaviorSubject, fromEvent, Subscription, forkJoin } from 'rxjs';
 import { tap, filter, switchMap } from 'rxjs/operators';
-import { Helper } from '../models/helper.class.js';
-import { routes } from '../models/routes.js';
+import { Helper } from '../models/helper.class';
+import { routes } from '../models/routes';
 
 class Router {
 
@@ -11,7 +11,6 @@ class Router {
         this.page$ = new BehaviorSubject({});
         this.sub = new Subscription();
         this.eventSub = new Subscription();
-        this.page = routes[0];
     }
 
     get page() {
@@ -26,6 +25,15 @@ class Router {
     }
 
     init() {
+        // router initialization
+        if (window.location.hash) {
+            this.navigate(window.location.hash.slice(1))
+        } else {
+            const initialPage = routes[0].path;
+            this.navigate(initialPage);
+        }
+
+        // page rendering
         this.sub = this.$page
             .pipe(
                 tap(page => page.component.init()),
@@ -34,27 +42,39 @@ class Router {
             )
             .subscribe();
 
+        // router event listener
         this.eventSub = this.$routerListener()
-            .subscribe(event => console.log("routerEvents", event));
+            .subscribe();
     }
 
     $routerListener() {
-        const $routerListener = fromEvent(document, "click")
+        // listener to window location hash change
+        const $hashListener = fromEvent(window, "hashchange")
+            .pipe(
+                tap(event => this.navigate(event.path[0].location.hash.slice(1)))
+            )
+        // listener to navbar links click
+        const $linksListener = fromEvent(document, "click")
             .pipe(
                 filter(event => event.target.matches("[data-path]")),
                 tap(event => {
                     Helper.eventHandler(event, true);
                     const path = event.target.dataset.path;
-                    this.navigate(path);
+                    window.location.hash = path;
                 })
             );
-        return $routerListener;
+        return forkJoin($linksListener, $hashListener);
     }
 
     navigate(path) {
-        const page = this.routes.find(route => {
+        let page = this.routes.find(route => {
             return route.path === path
         });
+        if (page === undefined) {
+            page = this.routes.find(route => {
+                return route.path === "error"
+            })
+        }
         if (this.page.component) {
             this.page.component.destroy();
         }

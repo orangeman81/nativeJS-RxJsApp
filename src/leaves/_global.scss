@@ -91,14 +91,6 @@ main {
     }
 }
 
-.loaderWrapper {
-    height: calc(100vh - 172px);
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .ripple {
     display: inline-block;
     position: relative;

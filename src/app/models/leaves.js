@@ -106,7 +106,7 @@ export const RadioDetails = (data) => {
 };
 
 export const Loader = () => `
-    <div class="loaderWrapper">
+    <div class="centeredLayout">
         <div class="ripple">
             <div></div>
             <div></div>
@@ -165,5 +165,14 @@ const RadioHeader = (data) => `
                 </span>
         </header>
         <hr>
+    </div>
+`;
+
+export const ErrorPage = () => `
+    <div class="centeredLayout">
+        <div class="ripple">
+            <div></div>
+            <div></div>
+        </div>
     </div>
 `;

@@ -1,13 +1,13 @@
 import '../styles.scss';
 import router from "./services/router.js";
-import { AppService } from "./services/appService.js";
+import appService from "./services/appService.js";
 
 window.onload = () => {
-    const appListener = new AppService();
     router.init();
+    appService.init();
 }
 
 window.onbeforeunload = () => {
     router.destroy();
-    appListener.destroy();
+    appService.destroy();
 }

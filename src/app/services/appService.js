@@ -12,12 +12,11 @@ import { data } from "./data.service.js";
 import { Helper } from '../models/helper.class.js';
 import router from './router.js';
 
-export class AppService {
+class AppService {
 
     constructor() {
         this.sub = new Subscription();
         this.actionSub = new Subscription();
-        this.init();
     }
 
     init() {
@@ -49,3 +48,6 @@ export class AppService {
     }
 
 }
+
+const appService = new AppService();
+export default appService;

@@ -39,6 +39,14 @@
     justify-content: space-between
 }
 
+.centeredLayout {
+    height: calc(100vh - 172px);
+    width: 100vw;
+    @extend .d-flex;
+    @extend .f-center;
+    @extend .f-justify-c;
+}
+
 .hide-laptop {
     @media #{$laptop-up} {
         display: none;

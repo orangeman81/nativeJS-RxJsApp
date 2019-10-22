@@ -1,4 +1,4 @@
-import { data } from "../services/data.service.js";
+import { data } from "../services/data.service";
 import { fromEvent, Subscription, BehaviorSubject } from 'rxjs';
 import {
     filter,
