@@ -1,4 +1,4 @@
-import { Page } from './page.interface';
+import { Page } from '../core/page.interface';
 import HomeComponent from "../components/home.component";
 import RadioComponent from "../components/radio.component";
 import ErrorComponent from "../components/error.component";

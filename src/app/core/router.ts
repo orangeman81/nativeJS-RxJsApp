@@ -1,7 +1,8 @@
-import { Page } from './../models/page.interface';
+import { Loader } from './leaves';
+import { Page } from './page.interface';
 import { BehaviorSubject, fromEvent, Subscription, forkJoin } from 'rxjs';
 import { tap, filter, switchMap } from 'rxjs/operators';
-import { Helper } from '../models/helper.class';
+import { Helper } from './helper.class';
 import { routes } from '../models/routes';
 
 class Router {
@@ -82,6 +83,7 @@ class Router {
             })
         }
         if (this.page.component) {
+            this.page.component.template = Loader();
             this.page.component.destroy();
         }
         window.location.hash = page.path;

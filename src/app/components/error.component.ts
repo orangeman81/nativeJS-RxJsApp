@@ -1,18 +1,15 @@
-import { Component } from './../models/component.class';
-import { ErrorPage, Loader } from "../models/leaves";
+import { Component } from '../core/component.class';
+import { ErrorPage, Loader } from "../core/leaves";
 
 class Error extends Component {
 
     constructor() {
-        super(new Component(""))
+        super(ErrorPage())
     }
 
-    init() {
-        this.template = ErrorPage();
-    }
+    init() { }
 
     destroy() {
-        this.template = Loader();
     }
 
 }

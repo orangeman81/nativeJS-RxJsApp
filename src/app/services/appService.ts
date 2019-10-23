@@ -9,8 +9,8 @@ import {
     switchMap
 } from "rxjs/operators"
 import { data } from "./data.service";
-import { Helper } from '../models/helper.class';
-import router from './router';
+import { Helper } from '../core/helper.class';
+import router from '../core/router';
 
 class AppService {
 

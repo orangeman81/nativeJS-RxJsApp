@@ -1,5 +1,6 @@
+import { LifeCycle } from './../core/lifeCycle';
 import { data } from "../services/data.service";
-import { fromEvent, Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { fromEvent, Subscription, Observable } from 'rxjs';
 import {
     filter,
     tap,
@@ -7,23 +8,19 @@ import {
     distinctUntilChanged,
     switchMap
 } from 'rxjs/operators';
-import { Loader } from "../models/leaves";
-import { Helper } from "../models/helper.class";
+import { Loader } from "../core/leaves";
+import { Helper } from "../core/helper.class";
+import { Component } from "../core/component.class";
 
-class RadioComponent {
+class RadioComponent extends Component implements LifeCycle {
 
     renderSub: Subscription;
     actionSub: Subscription;
-    template$: BehaviorSubject<string>;
 
     constructor() {
+        super();
         this.renderSub = new Subscription();
         this.actionSub = new Subscription();
-        this.template$ = new BehaviorSubject<string>(Loader());
-    }
-
-    set template(value) {
-        this.template$.next(value);
     }
 
     init() {
@@ -77,7 +74,6 @@ class RadioComponent {
     }
 
     destroy() {
-        this.template = Loader();
         this.renderSub.unsubscribe();
         this.actionSub.unsubscribe();
     }

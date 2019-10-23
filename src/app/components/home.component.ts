@@ -1,5 +1,6 @@
+import { LifeCycle } from './../core/lifeCycle';
 import { data } from "../services/data.service";
-import { fromEvent, Subscription, BehaviorSubject } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import {
     filter,
     tap,
@@ -7,23 +8,19 @@ import {
     distinctUntilChanged,
     switchMap
 } from 'rxjs/operators';
-import { Loader } from "../models/leaves";
-import { Helper } from "../models/helper.class";
+import { Loader } from "../core/leaves";
+import { Helper } from "../core/helper.class";
+import { Component } from "../core/component.class";
 
-class Home {
+class Home extends Component implements LifeCycle {
 
-    template$: BehaviorSubject<string>;
     renderSub: Subscription;
     actionSub: Subscription;
 
     constructor() {
-        this.template$ = new BehaviorSubject(Loader());
+        super()
         this.renderSub = new Subscription();
         this.actionSub = new Subscription();
-    }
-
-    set template(value) {
-        this.template$.next(value);
     }
 
     init() {
@@ -65,19 +62,18 @@ class Home {
 
     $render() {
         return data.$store
-        .pipe(
-            pluck("page"),
-            distinctUntilChanged(),
-            filter(page => page != ""),
-            tap(page => {
-                console.log("rendering tails");
-                this.template = page;
-            })
-        );
+            .pipe(
+                pluck("page"),
+                distinctUntilChanged(),
+                filter(page => page != ""),
+                tap(page => {
+                    console.log("rendering tails");
+                    this.template = page;
+                })
+            );
     }
 
     destroy() {
-        this.template = Loader();
         this.renderSub.unsubscribe();
         this.actionSub.unsubscribe();
     }

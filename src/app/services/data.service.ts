@@ -1,6 +1,6 @@
 import { Store } from "../models/store.class";
 import { AppState } from "../models/AppState.class";
-import { Details, TileList, RadioList, RadioDetails } from "../models/leaves";
+import { Details, TileList, RadioList, RadioDetails } from "../core/leaves";
 import { from, forkJoin, Observable } from "rxjs";
 import { first, tap } from "rxjs/operators";
 
