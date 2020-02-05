@@ -31,8 +31,8 @@ class AppService {
                 tap(event => {
                     Helper.eventHandler(event);
                 }),
-                distinctUntilChanged(),
                 debounceTime(800),
+                distinctUntilChanged(),
                 filter((event: InputEvent) => (event.target as HTMLInputElement).value.trim() != ""),
                 map((event: InputEvent) => {
                     const queryValue = (event.target as HTMLInputElement).value.trim();
